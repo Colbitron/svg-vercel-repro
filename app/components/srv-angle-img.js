@@ -1,4 +1,5 @@
-import { dsnImage, cmsGraphQLFetch, cmsServer } from "@/lib/globals";
+import { dsnImage, cmsServer } from "@/lib/globals";
+import cmsGraphQLFetch from "@/app/actions/.cms-graphql";
 import Image from "next/image";
 import cmsLoader from "./cms-img-loader";
 import stdLoader from "./std-img-loader";
@@ -57,6 +58,7 @@ export default async function AngleImg({ src, width, height }) {
 						height
 					});
 				} else {
+					console.log('No mediaItem found for', id);
 					useStdImg = true;
 				}
 			});
@@ -64,7 +66,6 @@ export default async function AngleImg({ src, width, height }) {
 	}
 
 	if (useStdImg) return stdImg;
-
 	return (dsnResults[1] && ((args.width && args.height) || args.fill)) ?
 		<Image {...args} /> :
 		stdImg;
